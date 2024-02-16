@@ -24,7 +24,7 @@ public class Database
     }
     public IDataReader openConnectionAndRunQuery(string query)
     {
-        conn = "URI=file:" + Application.dataPath + "/DB/shenkard.sqlite";
+        conn = "URI=file:" + Application.dataPath + "/scripts/DB/shenkard.sqlite";
         dbconn = new SqliteConnection(conn);
         dbconn.Open();
         dbcmd = dbconn.CreateCommand();
