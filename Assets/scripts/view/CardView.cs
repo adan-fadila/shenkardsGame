@@ -22,18 +22,18 @@ public class CardView : MonoBehaviour
     public Text powerText;
 
 
-    void Start()
+    // void Start()
+    // {
+    //     Player player = playerController.GetPlayer(1);
+    //     thisCard = playerController.getPlayerCards(player);
+    // }
+   public void setCard(ICard card)
     {
-        Player player = playerController.GetPlayer(1);
-        thisCard = playerController.getPlayerCards(player);
-    }
-    void Update()
-    {
-        id = thisCard[1].id;
-        cardName = thisCard[1].Name;
-        power = thisCard[1].Power;
-        cost = thisCard[0].Cost;
-        cardDescription = thisCard[0].Desc;
+        id = card.id;
+        cardName = card.Name;
+        power = card.Power;
+        cost = card.Cost;
+        cardDescription = card.Desc;
 
         nameText.text = "" + cardName;
         descText.text = "" + cardDescription;

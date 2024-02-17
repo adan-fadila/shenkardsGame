@@ -12,10 +12,10 @@ class PlayerController
     {
         playerService.updatePlayerEnergy(player, en);
     }
-    public void drawCard(Player player, int num)
+    public ICard[] drawCard(Player player, int num)
     {
 
-        playerService.drawCard(player, num);
+       return playerService.drawCard(player, num);
     }
     public ICard[] getPlayerCards(Player player)
     {
@@ -24,7 +24,10 @@ class PlayerController
     public bool validatePlayer(string username, string password){
         return playerService.validatePlayer(username,password);
     }
-    public Player GetPlayer(int id){
+    public Player GetPlayer(string name){
+        return playerService.GetPlayer(name);
+    }
+      public Player GetPlayer(int id){
         return playerService.GetPlayer(id);
     }
 }

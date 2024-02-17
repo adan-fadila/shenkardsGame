@@ -10,12 +10,24 @@ namespace Game_package
     public class GameService
     {
 
+        private static GameService instance;
         private int waitingPlayer;
         private PlayerService playerService = PlayerService.getInstance();
         private LocationService locationService = LocationService.getInstance();
 
 
+        private GameService()
+        {
 
+        }
+        public static GameService getInstance()
+        {
+            if (instance == null)
+            {
+                instance = new GameService();
+            }
+            return instance;
+        }
         public void putCardToLocation(Player player, Location location, ICard card, Game game)
         {
             locationService.putCardToLocation(player, location, card, game);
@@ -37,7 +49,6 @@ namespace Game_package
             if (!IsWaitingPlayerAvailable())
             {
                 SetWaitingPlayer(Player1ID);
-                Debug.WriteLine("Player " + Player1ID + " is now waiting for an opponent.");
                 return null;
             }
 
@@ -46,6 +57,7 @@ namespace Game_package
             Player player2 = playerService.GetPlayer(Player2ID);
             Location[] locations = GetRandomLocations(3);
             ResetWaitingPlayer();
+            Debug.WriteLine("game init");
             return initGame(player1, player2, new numOfLocationsStrategy(), locations);
         }
         private Game initGame(Player player1, Player player2, IBattleStrategy battleStrategy, Location[] locations)

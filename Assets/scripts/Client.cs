@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Net;
 using System.Net.Sockets;
+using UnityEngine.UI;
 
 public class client : MonoBehaviour
 {
@@ -9,12 +10,12 @@ public class client : MonoBehaviour
     private const string SERVER_IP = "127.0.0.1"; // Change this to your server's IP address
 
     private Socket clientSocket;
-    [Serializable]
-    public class gameState{
-        public int playerScore;
-        public string playerName;
+    // [Serializable]
+    // public class gameState{
+    //     public int playerScore;
+    //     public string playerName;
 
-    }
+    // }
 
     void Start()
     {
@@ -39,6 +40,12 @@ public class client : MonoBehaviour
         if (clientSocket.Connected)
         {
             Debug.Log("Connected to server");
+
+            // Send player ID to the server
+            int playerId = PlayerName.getPlayerId(); // Assuming PlayerName is a class that holds the player ID
+            SendData(playerId.ToString());
+
+            // Start receiving data from the server
             ReceiveData();
         }
         else
@@ -99,4 +106,26 @@ public class client : MonoBehaviour
             clientSocket.Close();
         }
     }
+
+    public void onStartGameClick()
+    {
+        int id = PlayerName.getPlayerId();
+        Debug.Log($"id: {id}");
+        SendData(id.ToString());
+
+    }
+    
+    // private void BroadcastGameData(Game gameData, TcpClient senderClient)
+    // {
+    //     byte[] dataBytes = Encoding.ASCII.GetBytes(JsonUtility.ToJson(gameData));
+
+    //     foreach (TcpClient client in connectedClients)
+    //     {
+    //         if (client != senderClient && client.Connected)
+    //         {
+    //             NetworkStream stream = client.GetStream();
+    //             stream.Write(dataBytes, 0, dataBytes.Length);
+    //         }
+    //     }
+    // }
 }

@@ -7,8 +7,8 @@ using Player_package;
 class GameController
 {
     private Game game;
-    private GameService gameService = new GameService();
- 
+    private GameService gameService = GameService.getInstance();
+
     public void putCardToLocation(Player player, Location location, ICard card)
     {
         gameService.putCardToLocation(player, location, card, game);
@@ -25,4 +25,11 @@ class GameController
     {
         return gameService.startBattle(game);
     }
+    public void SetWaitingPlayer(int playerId)
+    {
+        gameService.SetWaitingPlayer(playerId);
+    }
+     public bool IsWaitingPlayerAvailable(){
+        return gameService.IsWaitingPlayerAvailable();
+     }
 }

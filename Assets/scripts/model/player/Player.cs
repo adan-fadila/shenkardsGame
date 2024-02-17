@@ -22,6 +22,7 @@ namespace Player_package
         this.id = id;
         this.name = name;
         // deck = new Deck();
+        displayedCards = new List<ICard>();
         this.cards = cards;
         if (hasDeck == false)
         {

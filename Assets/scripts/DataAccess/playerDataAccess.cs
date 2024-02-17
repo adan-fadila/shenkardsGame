@@ -57,7 +57,7 @@ public class playerDataAccess
     }
     public int getPlayerId(string name)
     {
-        string query = "SELECT id FROM players where name = " + name + ";";
+        string query =$"SELECT id FROM players where name = '{name}';";
         int id = -1;
         IDataReader reader = database.openConnectionAndRunQuery(query);
         if (reader.Read())

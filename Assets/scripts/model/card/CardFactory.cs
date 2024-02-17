@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 
 
 namespace Card_package
@@ -19,7 +20,6 @@ namespace Card_package
             int CardPower = cardDataAccess.getCardPower(id);
             string CardName = cardDataAccess.getCardName(id);
 
-
             string Ability = null;
             if (CardType.Equals("master") || CardType.Equals("ability"))
             {
@@ -36,7 +36,7 @@ namespace Card_package
                 case "regular":
                     return new RegularCard(id, CardName, CardDesc, CardCost, CardPower);
                 default:
-                    throw new ArgumentException("Invalid card type");
+                    throw new ArgumentException($"Invalid card type {id}");
             }
         }
     }
