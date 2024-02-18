@@ -29,7 +29,7 @@ public class CardView : MonoBehaviour
 
     void Awake()
     {
-        card = cardController.getCard(2);
+        card = cardController.getCard(2); 
     }
     void Start()
     {
