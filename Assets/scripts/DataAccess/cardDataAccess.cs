@@ -45,6 +45,20 @@ public class cardDataAccess
 
         return desc;
     }
+
+    public string getCardImage(int id)
+    {
+        string query = $"select image from cards where id = {id};";
+        string image = "";
+        IDataReader reader = database.openConnectionAndRunQuery(query);
+        if (reader.Read())
+        {
+            image = reader.GetString(0);
+        }
+        database.closeConnection(reader);
+
+        return image;
+    }
     public int getCardCost(int id)
     {
         string query = "select cost from cards where id = " + id + ";";

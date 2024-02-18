@@ -15,13 +15,16 @@ namespace Card_package
 
     public int id {get;private set;}
 
-    public RegularCard(int id,string Name, string Desc, int Cost, int Power)
+    public string Image { get; set; }
+
+    public RegularCard(int id,string Name, string Desc, int Cost, int Power, string image)
     {
         this.id = id;
         this.Name = Name;
         this.Desc = Desc;
         this.Cost = Cost;
         this.Power = Power;
+        this.Image = image;
     }
 
 }

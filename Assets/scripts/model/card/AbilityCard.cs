@@ -10,10 +10,12 @@ namespace Card_package{
 
         public int id {get;private set;}
 
+        public string Image { get; set;}
+
         public IAbilityStrategy Ability;
         private AbilityFactory abilityFactory = new AbilityFactory();
     
-        public AbilityCard(int id,string Name, string Desc, int Cost, int Power, string Ability)
+        public AbilityCard(int id,string Name, string Desc, int Cost, int Power, string Ability, string image)
         {
             this.Name = Name;
             this.Desc = Desc;
@@ -21,6 +23,7 @@ namespace Card_package{
             this.Power = Power;
             this.id = id;
             this.Ability = abilityFactory.generate(Ability);
+            this.Image = image;
         }
         
 

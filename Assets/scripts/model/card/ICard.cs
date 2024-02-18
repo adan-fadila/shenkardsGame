@@ -1,3 +1,5 @@
+using UnityEngine;
+
 namespace Card_package
 {
     public interface ICard
@@ -17,6 +19,12 @@ namespace Card_package
             set;
         }
         int Power
+        {
+            get;
+            set;
+        }
+
+        string Image
         {
             get;
             set;

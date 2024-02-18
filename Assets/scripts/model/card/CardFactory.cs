@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using UnityEngine;
 
 
 namespace Card_package
@@ -19,6 +20,7 @@ namespace Card_package
             int CardCost = cardDataAccess.getCardCost(id);
             int CardPower = cardDataAccess.getCardPower(id);
             string CardName = cardDataAccess.getCardName(id);
+            string CardImage = cardDataAccess.getCardImage(id);
 
             string Ability = null;
             if (CardType.Equals("master") || CardType.Equals("ability"))
@@ -29,12 +31,12 @@ namespace Card_package
             switch (CardType)
             {
                 case "master":
-                    return new MasterCard(id, CardName, CardDesc, CardPower, Ability);
+                    return new MasterCard(id, CardName, CardDesc, CardPower, Ability, CardImage);
                 case "ability":
-                    return new AbilityCard(id, CardName, CardDesc, CardCost, CardPower, Ability);
+                    return new AbilityCard(id, CardName, CardDesc, CardCost, CardPower, Ability, CardImage);
 
                 case "regular":
-                    return new RegularCard(id, CardName, CardDesc, CardCost, CardPower);
+                    return new RegularCard(id, CardName, CardDesc, CardCost, CardPower, CardImage);
                 default:
                     throw new ArgumentException($"Invalid card type {id}");
             }
