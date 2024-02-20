@@ -18,7 +18,7 @@ public class MainMenuController : MonoBehaviour
 
         SceneManager.LoadScene("waitingRoom");
         client.RequestGame();
-        client.receivedGameData();
+        client.GetGame();
         SceneManager.LoadScene("Game");
 
 
