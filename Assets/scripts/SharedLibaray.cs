@@ -1,5 +1,6 @@
 namespace SharedLibrary
 {
+    using System;
     using System.Collections.Generic;
 
     public class GameData
@@ -32,6 +33,11 @@ namespace SharedLibrary
             set;
         }
         public int Power
+        {
+            get;
+            set;
+        }
+        public string Image
         {
             get;
             set;
