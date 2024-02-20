@@ -2,7 +2,6 @@ using System;
 using System.Net.Sockets;
 using System.Text;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
 using SharedLibrary;
 
@@ -15,13 +14,15 @@ public class Client
     private const string serverAddress = "127.0.0.1"; // Server IP address
     private const int port = 8888;
 
-     private Client()
+    private Client()
     {
         client = new TcpClient(serverAddress, port);
         stream = client.GetStream();
     }
-    public static Client getInstance(){
-        if(instance == null){
+    public static Client getInstance()
+    {
+        if (instance == null)
+        {
             instance = new Client();
         }
         return instance;
@@ -43,14 +44,28 @@ public class Client
     }
     public GameData GetGame()
     {
-         byte[] buffer = new byte[1024];
-        int bytesRead = stream.Read(buffer, 0, buffer.Length);
-        string serializedGameData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-        GameData gameData = JsonConvert.DeserializeObject<GameData>(serializedGameData);
-        return gameData;
+        try
+        {
+            byte[] buffer = new byte[1024];
+            while (true)
+            {
 
+                if (stream.DataAvailable)
+                {
+                    int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                    string serializedGameData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                    GameData gameData = JsonConvert.DeserializeObject<GameData>(serializedGameData);
+                    return gameData;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("GetGame exseption: " + e);
+        }
+        return null;
     }
- 
+
 
     private void SendMessage(string message)
     {
@@ -83,7 +98,7 @@ public class Client
         stream.Close();
         client.Close();
     }
-   
+
 }
 
 

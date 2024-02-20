@@ -1,10 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
 using SharedLibrary;
+using UnityEngine;
 
-class GameModel
+public class GameModel
 {
     private static GameModel instance;
+    public GameData gameData;
     private GameModel(){
-        GameData gameData = new GameData();
+        gameData = new GameData();
     }
     public static GameModel getInstance(){
         if(instance == null){
@@ -12,4 +16,5 @@ class GameModel
         }
         return instance;
     }
+
 }

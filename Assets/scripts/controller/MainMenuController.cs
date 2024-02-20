@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class MainMenuController : MonoBehaviour
 {
     private Client client;
+    private GameModel gameModel = GameModel.getInstance();
 
     void Start()
     {
@@ -15,13 +16,7 @@ public class MainMenuController : MonoBehaviour
 
     public void onStartGameClick()
     {
-
         SceneManager.LoadScene("waitingRoom");
-        client.RequestGame();
-        client.GetGame();
-        SceneManager.LoadScene("Game");
-
-
     }
 
 }
