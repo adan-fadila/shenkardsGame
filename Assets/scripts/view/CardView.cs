@@ -5,14 +5,15 @@ using Player_package;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class CardView : MonoBehaviour
 {
     PlayerController playerController = new PlayerController();
     CardController cardController = new CardController();  
-    ICard card;
-    private ICard[] thisCard;
-    private int thisId;
+    ICard card; 
+    //private ICard[] thisCard;
+    //private int thisId;
     private int id;
     private string cardName;
     private int power;
@@ -29,7 +30,7 @@ public class CardView : MonoBehaviour
 
     void Awake()
     {
-        card = cardController.getCard(2); 
+        card = cardController.getCard(1); 
     }
     void Start()
     {
@@ -51,5 +52,7 @@ public class CardView : MonoBehaviour
         image = Resources.Load<Sprite>("cardImages/" + cardImageString);
         cardImage.sprite = image;
     }
+
+   
 }
     

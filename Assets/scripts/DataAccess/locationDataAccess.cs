@@ -35,6 +35,20 @@ public class locationDataAccess
         return name;
     }
 
+    public string getLocationImage(int id)
+    {
+        string query = $"select image from location where id = {id};";
+        string image = "";
+        IDataReader reader = database.openConnectionAndRunQuery(query);
+        if (reader.Read())
+        {
+            image = reader.GetString(0);
+        }
+        database.closeConnection(reader);
+        return image;
+
+    }
+
     public string getLocationDesc(int id)
     {
         string query = "select desc from location where id = " + id + ";";

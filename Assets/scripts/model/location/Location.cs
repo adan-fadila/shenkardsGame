@@ -10,6 +10,7 @@ namespace Location_package
     {
         public string Name { get; }
         public string Desc { get; }
+        public string Image { get; set; }
         // public List<Zone> zones { get; }
         public Zone zone1 { get; private set;}
         public Zone zone2 { get; private set;}
@@ -17,10 +18,11 @@ namespace Location_package
 
         public ILocationBattleStrategy battleStrategy { get; }
 
-        public Location(string name, string desc, ILocationBattleStrategy locationBattleStrategy)
+        public Location(string name, string desc,string image, ILocationBattleStrategy locationBattleStrategy)
         {
             this.Name = name;
             this.Desc = desc;
+            this.Image = image;
             this.battleStrategy = locationBattleStrategy;
             this.revealed = false;
 

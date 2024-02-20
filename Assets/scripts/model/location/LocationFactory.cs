@@ -9,6 +9,8 @@ namespace Location_package
         {
             string name = locationData.getLocationName(id);
             string desc = locationData.getLocationDesc(id);
+            string image = locationData.getLocationImage(id);
+
             string locationBattleStrategyName = locationData.getLocationAbility(id);
             ILocationBattleStrategy locationBattleStrategy = null;
             if(locationBattleStrategyName == "NegativeZoneStrategy"){
@@ -17,7 +19,7 @@ namespace Location_package
             if(locationBattleStrategyName == "ReplaceCardsStrategy"){
                locationBattleStrategy= new LocationReplaceCardsStrategy() ;
             }
-            return new Location(name,desc,locationBattleStrategy);
+            return new Location(name,desc,image,locationBattleStrategy);
         }
     }
 }
