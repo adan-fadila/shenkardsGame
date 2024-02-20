@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class WaitingRoom : MonoBehaviour
 {
-    private GameModel gameModel;
+    private  GameModel gameModel;
     private Client client;
     // Start is called before the first frame update
     void Start()
