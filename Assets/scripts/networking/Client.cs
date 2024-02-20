@@ -1,92 +1,90 @@
-using UnityEngine;
 using System;
-using System.Net;
 using System.Net.Sockets;
-using System.Threading;
-using Game_package;
+using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using UnityEngine;
+using SharedLibrary;
 
-public class Client : MonoBehaviour
+public class Client
 {
-    private const string SERVER_IP = "127.0.0.1"; // Change this to your server's IP address
-    private const int PORT = 8888;
- private GameUI gameUI = GameUI.getInstance();
+    private static Client instance;
+    int playerId = -1;
+    private TcpClient client;
+    private NetworkStream stream;
+    private const string serverAddress = "127.0.0.1"; // Server IP address
+    private const int port = 8888;
 
-
-    void Start()
+     private Client()
     {
-        ConnectToServer();
+        client = new TcpClient(serverAddress, port);
+        stream = client.GetStream();
+    }
+    public static Client getInstance(){
+        if(instance == null){
+            instance = new Client();
+        }
+        return instance;
+    }
+    public void Login(string username, string password)
+    {
+        // Example: Sending login request to the server
+        string loginRequest = $"LOGIN|{username}|{password}";
+        SendMessage(loginRequest);
+        ReceivePlayerId();
     }
 
-    void ConnectToServer()
+    public void RequestGame()
     {
-        try
-        {
-            TcpClient client = new TcpClient(SERVER_IP, PORT);
-            Debug.Log("Connected to server.");
+        // Example: Sending game request with player ID
+        string gameRequest = $"GAME_REQUEST|{playerId}";
+        SendMessage(gameRequest);
 
-            // Send request for game data
-            SendMessage(client, MessageType.PlayerID, PlayerName.getPlayerId());
+    }
+    public GameData GetGame()
+    {
+         byte[] buffer = new byte[1024];
+        int bytesRead = stream.Read(buffer, 0, buffer.Length);
+        string serializedGameData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+        GameData gameData = JsonConvert.DeserializeObject<GameData>(serializedGameData);
+        return gameData;
 
-            // Receive game data
-            ReceiveMessage(client);
-            // if (!string.IsNullOrEmpty(jsonGame))
-            // {
-            //     // Deserialize game data
-            //     Game game = JsonUtility.FromJson<Game>(jsonGame);
-            //     Debug.Log("Received game data: " + game.locations[0].Name + ", " + game.locations[0].Desc);
-            // }
+    }
+ 
 
-            // client.Close();
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Error connecting to server: " + e.Message);
-        }
+    private void SendMessage(string message)
+    {
+        byte[] data = Encoding.ASCII.GetBytes(message);
+        stream.Write(data, 0, data.Length);
     }
 
-    void SendMessage(TcpClient client, MessageType messageType, int playerId)
+    public void ReceiveMessage()
     {
-        try
-        {
-            NetworkStream stream = client.GetStream();
-
-            // Convert message type to bytes
-            byte[] messageTypeBytes = BitConverter.GetBytes((int)messageType);
-
-            // Send message type to server
-            stream.Write(messageTypeBytes, 0, messageTypeBytes.Length);
-            Debug.Log("Sent message type to server: " + messageType);
-
-            // If player ID is provided, send it to the server
-            if (messageType == MessageType.PlayerID)
-            {
-                byte[] playerIdBytes = BitConverter.GetBytes(playerId);
-                stream.Write(playerIdBytes, 0, playerIdBytes.Length);
-                Debug.Log("Sent player ID to server: " + playerId);
-            }
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("Error sending message to server: " + e.Message);
-        }
+        byte[] buffer = new byte[1024];
+        int bytesRead = stream.Read(buffer, 0, buffer.Length);
+        string receivedMessage = Encoding.ASCII.GetString(buffer, 0, bytesRead);
     }
-    void ReceiveMessage(TcpClient client)
+    public void ReceivePlayerId()
     {
-       
-            NetworkStream stream = client.GetStream();
-            byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[1024];
+        int bytesRead = stream.Read(buffer, 0, buffer.Length);
+        string playerIdString = Encoding.UTF8.GetString(buffer, 0, bytesRead);
+        int playerId;
+        if (int.TryParse(playerIdString, out playerId))
+        {
+            this.playerId = playerId;
+        }
+        Debug.Log(this.playerId);
 
-            // Read JSON data
-            int bytesRead = stream.Read(buffer, 0, buffer.Length);
-            string jsonGameData = System.Text.Encoding.ASCII.GetString(buffer, 0, bytesRead);
-
-            // Deserialize game data
-            Game game = JsonUtility.FromJson<Game>(jsonGameData);
-            gameUI.UpdateGame(game);
-            // Debug.Log("Received game data: " + game.Score + ", " + game.PlayerName);
-            // Update UI or game state with received game data
-            // UpdateGameState(game);
-        
-       
     }
+
+    public void Close()
+    {
+        stream.Close();
+        client.Close();
+    }
+   
 }
+
+
+

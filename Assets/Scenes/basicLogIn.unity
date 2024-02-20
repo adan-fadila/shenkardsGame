@@ -638,9 +638,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db4d1a098f6d68b45b4d2833928ef74b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameInputField: {fileID: 595838993}
-  passInputField: {fileID: 1623242883}
-  logInButton: {fileID: 1241752749}
+  usernameInput: {fileID: 595838993}
+  passwordInput: {fileID: 1623242883}
+  loginButton: {fileID: 1241752749}
 --- !u!1 &1241752747
 GameObject:
   m_ObjectHideFlags: 0
@@ -726,7 +726,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1189240908}
         m_TargetAssemblyTypeName: LoginController, Assembly-CSharp
-        m_MethodName: onLoginClick
+        m_MethodName: OnLoginButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
