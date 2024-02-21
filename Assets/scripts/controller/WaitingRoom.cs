@@ -1,31 +1,30 @@
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class WaitingRoom : MonoBehaviour
 {
-    private  GameModel gameModel;
+    private GameModel gameModel;
     private Client client;
     // Start is called before the first frame update
-    void Start()
+     void Start()
     {
+        Debug.Log("seceneStarted");
         client = Client.getInstance();
         gameModel = GameModel.getInstance();
-        client.RequestGame();
-        
+        StartCoroutine(WaitForGameData());
     }
 
-    void Update()
+    IEnumerator WaitForGameData()
     {
-        try
+        // Wait until the game data is received from the server
+        while (gameModel.gameData == null)
         {
-            gameModel.gameData = client.GetGame();
-            SceneManager.LoadScene("Game");
+            yield return null;
         }
-        catch (System.Exception)
-        {
 
-           Debug.Log("no game data");
-        }
+        // Once game data is received, proceed to the game scene
+        SceneManager.LoadScene("Game");
     }
 }

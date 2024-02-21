@@ -4,6 +4,8 @@ using System.Text;
 using Newtonsoft.Json;
 using UnityEngine;
 using SharedLibrary;
+using System.Threading.Tasks;
+using System.Collections;
 
 public class Client
 {
@@ -35,34 +37,59 @@ public class Client
         ReceivePlayerId();
     }
 
-    public void RequestGame()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public void RequestGame(GameModel gameModel)
     {
         // Example: Sending game request with player ID
         string gameRequest = $"GAME_REQUEST|{playerId}";
         SendMessage(gameRequest);
-
+        Task.Run(() => ReceiveGameData(gameModel));
     }
+    private void ReceiveGameData(GameModel gameModel)
+    {
+        // Receive game data from the server
+        GameData gameData = GetGame();
+
+        // Update the game model with the received game data
+        gameModel.gameData = gameData;
+        // If game data is received, load the game scene
+    }
+
+
+
     public GameData GetGame()
     {
         try
         {
             byte[] buffer = new byte[1024];
-            while (true)
-            {
+            int bytesRead = stream.Read(buffer, 0, buffer.Length);
 
-                if (stream.DataAvailable)
-                {
-                    int bytesRead = stream.Read(buffer, 0, buffer.Length);
-                    string serializedGameData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-                    GameData gameData = JsonConvert.DeserializeObject<GameData>(serializedGameData);
-                    return gameData;
-                }
-            }
+            string serializedGameData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+            GameData gameData = JsonConvert.DeserializeObject<GameData>(serializedGameData);
+            Debug.Log("GameData: "+ gameData);
+            return gameData;
+
+
         }
         catch (Exception e)
         {
             Console.WriteLine("GetGame exseption: " + e);
         }
+        Debug.Log("GameData: null");
         return null;
     }
 
