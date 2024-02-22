@@ -10,7 +10,7 @@ using System.Collections;
 public class Client
 {
     private static Client instance;
-    int playerId = -1;
+    public int playerId = -1;
     private TcpClient client;
     private NetworkStream stream;
     private const string serverAddress = "127.0.0.1"; // Server IP address
@@ -73,26 +73,35 @@ public class Client
 
     public GameData GetGame()
     {
-        try
+        GameData gameData = null;
+        while (gameData == null)
         {
-            byte[] buffer = new byte[1024];
-            int bytesRead = stream.Read(buffer, 0, buffer.Length);
+            try
+            {
+                byte[] buffer = new byte[1024];
+                int bytesRead = stream.Read(buffer, 0, buffer.Length);
 
-            string serializedGameData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
-            GameData gameData = JsonConvert.DeserializeObject<GameData>(serializedGameData);
-            Debug.Log("GameData: "+ gameData);
-            return gameData;
+                string serializedGameData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                gameData = JsonConvert.DeserializeObject<GameData>(serializedGameData);
+                Debug.Log("GameData: " + gameData.player1.PlayeName);
 
 
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("GetGame exseption: " + e);
+            }
         }
-        catch (Exception e)
-        {
-            Console.WriteLine("GetGame exseption: " + e);
-        }
-        Debug.Log("GameData: null");
-        return null;
+        return gameData;
     }
-
+/*******************************************/
+/*need to use when end turn clicked ---need testing*/
+    public GameData EndTurn(List<PlayedCard> playedCards,GameModel gameModel){
+         string EndTurn = $"EndTurn|{playedCards}";
+        SendMessage(gameRequest);
+        Task.Run(() => ReceiveGameData(gameModel));
+    }
 
     private void SendMessage(string message)
     {

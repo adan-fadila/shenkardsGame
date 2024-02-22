@@ -4,7 +4,7 @@ public class GameModel
     private static GameModel instance;
     public GameData gameData;
     private GameModel(){
-        gameData = new GameData();
+        gameData = null;
     }
     public static GameModel getInstance(){
         if(instance == null){
