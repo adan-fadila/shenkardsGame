@@ -6,6 +6,7 @@ using UnityEngine;
 using SharedLibrary;
 using System.Threading.Tasks;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Client
 {
@@ -95,11 +96,12 @@ public class Client
         }
         return gameData;
     }
-/*******************************************/
-/*need to use when end turn clicked ---need testing*/
-    public GameData EndTurn(List<PlayedCard> playedCards,GameModel gameModel){
-         string EndTurn = $"EndTurn|{playedCards}";
-        SendMessage(gameRequest);
+    /*******************************************/
+    /*need to use when end turn clicked ---need testing*/
+    public void EndTurn(List<PlayedCard> playedCards, GameModel gameModel)
+    {
+        string EndTurn = $"EndTurn|{playedCards}";
+        SendMessage(EndTurn);
         Task.Run(() => ReceiveGameData(gameModel));
     }
 
