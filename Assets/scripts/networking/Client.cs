@@ -30,16 +30,31 @@ public class Client
         }
         return instance;
     }
-    public void Login(string username, string password)
+    public bool Login(string username, string password)
     {
         // Example: Sending login request to the server
         string loginRequest = $"LOGIN|{username}|{password}";
         SendMessage(loginRequest);
         ReceivePlayerId();
+        if (playerId == -1)
+        {
+            return false;
+        }
+        return true;
     }
 
-
-
+    public bool AdminLogin(string username, string password)
+    {
+        // Example: Sending login request to the server
+        string loginRequest = $"AdminLOGIN|{username}|{password}";
+        SendMessage(loginRequest);
+        ReceivePlayerId();
+        if (playerId == -1)
+        {
+            return false;
+        }
+        return true;
+    }
 
 
 

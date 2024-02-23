@@ -20,13 +20,9 @@ public class WaitingRoom : MonoBehaviour
     {
         // Wait until the game data is received from the server
         while (gameModel.gameData == null)
-        {
-            Debug.Log("still null");
-            
+        {   
             yield return null;
-        }
-        Debug.Log("not null");
-
+        } 
         // Once game data is received, proceed to the game scene
         SceneManager.LoadScene("Game");
     }

@@ -9,14 +9,20 @@ public class LoginController : MonoBehaviour
     public InputField usernameInput;
     public InputField passwordInput;
     public Button loginButton;
+    public Text textComponent;
 
     private Client client;
 
+    void Awake()
+    {
+        HideText();
+    }
     void Start()
     {
         // Assuming you have a Client component attached to the same GameObject
         client = Client.getInstance();
-        
+
+
     }
 
     public void OnLoginButtonClick()
@@ -27,12 +33,60 @@ public class LoginController : MonoBehaviour
         if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
         {
             // Call the SendLoginInfo method of the client component
-            client.Login(username, password);
+            if (client.Login(username, password))
+            {
+                SceneManager.LoadScene("MainMenu");
+                
+            }
+            ShowText();
+
         }
         else
         {
             Debug.LogError("Username and password cannot be empty!");
+            ShowText();
         }
-        SceneManager.LoadScene("MainMenu");
+
+    }
+    public void ShowText()
+    {
+        // Enable the GameObject containing the Text component
+        textComponent.gameObject.SetActive(true);
+    }
+
+    // Function to hide the text
+    public void HideText()
+    {
+        // Disable the GameObject containing the Text component
+        textComponent.gameObject.SetActive(false);
+    }
+    public void onAdminButtonClick(){
+        SceneManager.LoadScene("AdminLogin");
+    }
+      public void onBackButtonClick(){
+        SceneManager.LoadScene("Login");
+    }
+      public void OnAdminLoginButtonClick()
+    {
+        string username = usernameInput.text;
+        string password = passwordInput.text;
+
+        if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
+        {
+            // Call the SendLoginInfo method of the client component
+            if (client.Login(username, password))
+            {
+                SceneManager.LoadScene("MainMenu");
+                
+            }
+            ShowText();
+
+        }
+        else
+        {
+            Debug.LogError("Username and password cannot be empty!");
+            ShowText();
+        }
+
     }
 }
