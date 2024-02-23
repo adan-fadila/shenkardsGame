@@ -12,4 +12,7 @@ public class GameModel
         }
         return instance;
     }
+    void setGameData(GameData gameData){
+        this.gameData = gameData;
+    }
 }

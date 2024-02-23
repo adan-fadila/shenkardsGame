@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 public class Client
 {
-    private static Client instance;
+    private static Client instance = null;
     public int playerId = -1;
     private TcpClient client;
     private NetworkStream stream;
@@ -146,11 +146,11 @@ public class Client
 
     }
 
-    public void Close()
-    {
-        stream.Close();
-        client.Close();
-    }
+    // public void Close()
+    // {
+    //     stream.Close();
+    //     client.Close();
+    // }
 
 }
 

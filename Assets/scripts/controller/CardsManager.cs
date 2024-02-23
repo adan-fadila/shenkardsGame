@@ -10,6 +10,7 @@ public class CardsManager : MonoBehaviour
     private GameModel gameModel;
     private Client client;
     private PlayerData playerData;
+    public GameObject selectedCard;
 
     void Start()
     {
@@ -26,6 +27,42 @@ public class CardsManager : MonoBehaviour
         }
         // Call the function to create instances of the prefab
         CreateInstances();
+    }
+    void Update()
+    {
+        // Check for mouse click on a card
+        if (Input.GetMouseButtonUp(0)) // Left mouse button click
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+            {
+                GameObject clickedObject = hit.collider.gameObject;
+                if (clickedObject.CompareTag("Card"))
+                {
+                    // Select the clicked card
+                    selectedCard = clickedObject;
+                }
+            }
+        }
+
+        if (selectedCard != null && Input.GetMouseButtonUp(0)) // Left mouse button click
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+            {
+                GameObject clickedObject = hit.collider.gameObject;
+                // Check if the clicked location is valid (e.g., a drop zone)
+                if (clickedObject.CompareTag("DropZone"))
+                {
+                    // Place the selected card at the clicked location
+                    selectedCard.transform.position = hit.point;
+                    // Clear the selection
+                    selectedCard = null;
+                }
+            }
+        }
     }
 
     void CreateInstances()
