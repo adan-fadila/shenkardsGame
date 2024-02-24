@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using SharedLibrary;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class CardsManager : MonoBehaviour
+public class CardsManager : MonoBehaviour//, IPointerClickHandler//, IPointerEnterHandler, IPointerExitHandler
 {
     // Start is called before the first frame update
     public GameObject Card;
@@ -12,6 +13,11 @@ public class CardsManager : MonoBehaviour
     private PlayerData playerData;
     public GameObject selectedCard;
 
+    private RectTransform cardRectTransform;
+    private Vector3 originalScale;
+    public float clickedScaleFactor = 1.2f;
+
+ 
     void Start()
     {
         client = Client.getInstance();
@@ -25,45 +31,17 @@ public class CardsManager : MonoBehaviour
         {
             playerData = gameModel.gameData.player2;
         }
-        // Call the function to create instances of the prefab
-        CreateInstances();
-    }
-    void Update()
-    {
-        // Check for mouse click on a card
-        if (Input.GetMouseButtonUp(0)) // Left mouse button click
-        {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                GameObject clickedObject = hit.collider.gameObject;
-                if (clickedObject.CompareTag("Card"))
-                {
-                    // Select the clicked card
-                    selectedCard = clickedObject;
-                }
-            }
-        }
 
-        if (selectedCard != null && Input.GetMouseButtonUp(0)) // Left mouse button click
-        {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                GameObject clickedObject = hit.collider.gameObject;
-                // Check if the clicked location is valid (e.g., a drop zone)
-                if (clickedObject.CompareTag("DropZone"))
-                {
-                    // Place the selected card at the clicked location
-                    selectedCard.transform.position = hit.point;
-                    // Clear the selection
-                    selectedCard = null;
-                }
-            }
-        }
+        selectedCard = null;
+
+        CreateInstances();
+
+        cardRectTransform = GetComponent<RectTransform>();
+        originalScale = cardRectTransform.localScale;
     }
+
+
+
 
     void CreateInstances()
     {
@@ -77,7 +55,7 @@ public class CardsManager : MonoBehaviour
 
             // Calculate the position based on the width of the prefab instance and its scale
             float cardWidth = rectTransform.rect.width * instance.transform.localScale.x;
-            Vector3 position = new Vector3(i * cardWidth, 0, 0);
+            Vector3 position = new Vector3((float)(i * 1.3 * cardWidth), 0, 0);
 
             // Set the position of the instantiated prefab
             instance.transform.localPosition = position;
@@ -99,6 +77,57 @@ public class CardsManager : MonoBehaviour
 
             // Optionally, you can give the instantiated GameObject a name
             instance.name = "Instance" + i;
+            AddClickScript(instance);
         }
+    }
+    private void AddClickScript(GameObject obj)
+    {
+        // Add the click script to the GameObject
+        SingleInstanceClickEffect clickEffect = obj.AddComponent<SingleInstanceClickEffect>();
+        clickEffect.selectedScaleFactor = clickedScaleFactor; // Set the clicked scale factor
+    }
+}
+
+public class SingleInstanceClickEffect : MonoBehaviour, IPointerClickHandler
+{
+    public static GameObject selectedCard;
+    private Vector3 originalScale;
+    public float selectedScaleFactor = 1.2f;// Adjust this value to control the scale when clicked
+
+    void Start()
+    {
+        // Get the RectTransform component of this instance
+        originalScale = transform.localScale;
+    }
+
+     public void OnPointerClick(PointerEventData eventData)
+    {
+         Debug.Log("Card clicked: " + gameObject.name);
+        // Deselect the previously selected card, if any
+        DeselectCard();
+
+        // Select the clicked card
+        SelectCard();
+    }
+
+    private void SelectCard()
+    {
+        // Set the selected card to this card
+        selectedCard = gameObject;
+
+        // Scale the selected card
+        selectedCard.transform.localScale = originalScale * selectedScaleFactor;
+        Debug.Log("Card selected: " + gameObject.name);
+    }
+
+    public void DeselectCard()
+    {
+        if (selectedCard != null)
+        {
+            // Reset the scale of the previously selected card
+            selectedCard.transform.localScale = originalScale;
+            Debug.Log("Card deselected: " + selectedCard.name);
+        }
+        
     }
 }
