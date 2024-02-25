@@ -52,7 +52,11 @@ public class CardView : MonoBehaviour
         image = Resources.Load<Sprite>("cardImages/" + cardImageString);
         cardImage.sprite = image;
     }
+    public int getPower()
+    {
+        return power;
+    }
 
-   
+
 }
     

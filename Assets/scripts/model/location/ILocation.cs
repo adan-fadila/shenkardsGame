@@ -6,6 +6,8 @@ namespace Location_package
         string Desc {get;}
 
         string Image { get; set; }
+
+
         ILocationBattleStrategy battleStrategy { get; }
     }
 }

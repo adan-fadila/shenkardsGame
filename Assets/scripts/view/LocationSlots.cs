@@ -6,13 +6,18 @@ using Location_package;
 
 public class LocationSlots : MonoBehaviour, IDropHandler
 {
+    public LocationView locationView;
     public void OnDrop(PointerEventData eventData)
     {
+
         // Access the LocationService instance directly
        Location_package.LocationService locationService = Location_package.LocationService.getInstance();
-
+        CardView cardView = eventData.pointerDrag.GetComponent<CardView>();
         if (eventData.pointerDrag != null)
         {
+            int cardPower = cardView.getPower();
+            locationView.updateScore(cardPower);
+
             RectTransform draggedItemRectTransform = eventData.pointerDrag.GetComponent<RectTransform>();
             RectTransform zoneRectTransform = GetComponent<RectTransform>();
 

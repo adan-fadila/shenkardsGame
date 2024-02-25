@@ -45,4 +45,24 @@ public class LocationView : MonoBehaviour
 
 
     }
+    public void updateScore(int cardPower)
+    {
+        if (location != null)
+        {
+            // Update the location's score
+            location.Score += cardPower;
+
+            // Update the ScoreText UI element to reflect the new score
+            ScoreText.text = "Score: " + location.Score.ToString();
+
+            // Optionally, log the updated score for debugging
+            Debug.Log("Updated location score: " + location.Score);
+        }
+        else
+        {
+            Debug.LogError("No location set in LocationView to update the score.");
+        }
+    }
+
+
 }
