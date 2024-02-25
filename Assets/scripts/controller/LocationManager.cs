@@ -7,10 +7,9 @@ using UnityEngine.EventSystems;
 public class LocationManager : MonoBehaviour
 {
     public GameObject Location;
-    public GameObject playerZone;
+
     private GameModel gameModel;
     private Client client;
-    private PlayerData playerData;
     // Start is called before the first frame update
     void Awake()
     {
@@ -18,18 +17,10 @@ public class LocationManager : MonoBehaviour
         gameModel = GameModel.getInstance();
         CreateInstances();
     }
-    void Start(){
-        LocationClickHandler[] locationHandlers = FindObjectsOfType<LocationClickHandler>();
 
-        // Assign the player zone to the playZone variable in each LocationClickHandler script
-        foreach (LocationClickHandler handler in locationHandlers)
-        {
-            Debug.Log("1");
-            handler.playerZone = playerZone;
-        }
-    }
 
-    void CreateInstances()
+
+    public void CreateInstances()
     {
         // Loop to create multiple instances
         for (int i = 0; i < gameModel.gameData.locationDatas.Count; i++)
@@ -40,42 +31,63 @@ public class LocationManager : MonoBehaviour
 
             // Calculate the position based on the width of the prefab instance and its scale
             float Locationwidth = rectTransform.rect.width * instance.transform.localScale.x;
-            Vector3 position = new Vector3(i * Locationwidth, 0, 0);
+            Vector3 position = new Vector3((float)(i * 3 * Locationwidth), 0, 0);
 
             // Set the position of the instantiated prefab
             instance.transform.localPosition = position;
 
             // Set the parent using the SetParent method
             instance.transform.SetParent(transform, false);
+
+
+
+            Transform playerZone = instance.transform.Find("border/playerZone");
+
+
+            AddClickScript(instance, playerZone,gameModel.gameData.locationDatas[i]);
+         
             LocationDisplay locationDisplay = instance.GetComponentInChildren<LocationDisplay>();
             if (locationDisplay != null)
             {
-                if (gameModel.gameData.locationDatas[i] == null)
-                {
-                    Debug.Log("location is null");
-                    return;
-                }
+               
                 locationDisplay.SetLocationData(gameModel.gameData.locationDatas[i], gameModel.gameData, client);
             }
             else
             {
-                Debug.LogWarning("Location Display component not found on the prefab.");
+                Debug.LogWarning("Card Display component not found on the prefab.");
             }
-
-            // Set the parent using the SetParent method
-            instance.transform.SetParent(transform, false);
 
             // Optionally, you can give the instantiated GameObject a name
             instance.name = "Instance" + i;
-            AddClickScript(instance);
+
         }
     }
-    private void AddClickScript(GameObject obj)
+       private void AddClickScript(GameObject obj, Transform playerZone,LocationData locationData)
     {
         // Add the click script to the GameObject
         LocationClickHandler clickEffect = obj.AddComponent<LocationClickHandler>();
         clickEffect.playerZone = playerZone;
-        // clickEffect.selectedScaleFactor = clickedScaleFactor; // Set the clicked scale factor
+        clickEffect.locationData1 = locationData;
+        Debug.Log("PLayerZone: " + playerZone);
+
+    }
+    private GameObject GetPlayerZoneForInstance(int index)
+    {
+        // Your logic to determine the player zone for each instance
+        // For example, if you have an array of player zones:
+        GameObject[] playerZones = GameObject.FindGameObjectsWithTag("DropZone");
+
+        // Ensure the index is within the range of player zones
+        if (index >= 0 && index < playerZones.Length)
+        {
+            return playerZones[index];
+        }
+        else
+        {
+            Debug.LogError($"Player zone for instance {index} not found!");
+            return null;
+        }
+
     }
 }
 

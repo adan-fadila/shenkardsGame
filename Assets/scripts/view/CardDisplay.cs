@@ -11,9 +11,12 @@ class CardDisplay : MonoBehaviour
     public Image cardImage;
     public TMP_Text cost;
     public TMP_Text power;
+    public string imgName;
+    public int id;
     public void SetCardData(CardData card)
     {
         // Set the name and description text of the card
+        id = card.id;
         nameLabel.text = card.Name;
         descriptionLabel.text = card.Desc;
         cost.text = $"{card.Cost}";
@@ -23,7 +26,8 @@ class CardDisplay : MonoBehaviour
         if (card.Image != null)
         {
             Debug.Log(card.Image);
-            cardImage.sprite = Resources.Load<Sprite>($"cardImages/{card.Image}") as Sprite;
+            imgName = card.Image;
+            cardImage.sprite = Resources.Load<Sprite>($"cardImages/{imgName}") as Sprite;
             // cardImage.gameObject.SetActive(true);
         }
         else

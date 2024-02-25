@@ -111,11 +111,25 @@ public class Client
         }
         return gameData;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+    
     /*******************************************/
     /*need to use when end turn clicked ---need testing*/
     public void EndTurn(List<PlayedCard> playedCards, GameModel gameModel)
     {
-        string EndTurn = $"EndTurn|{playedCards}";
+        string cards = JsonConvert.SerializeObject(playedCards);
+        string EndTurn = $"EndTurn|{cards}";
         SendMessage(EndTurn);
         Task.Run(() => ReceiveGameData(gameModel));
     }

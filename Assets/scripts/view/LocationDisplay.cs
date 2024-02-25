@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class LocationDisplay : MonoBehaviour
 {
-    public Text name;
+    public Text name1;
     public Text description;
     public Image LocationImage;
     public Text PlayerScore;
@@ -25,7 +25,7 @@ public class LocationDisplay : MonoBehaviour
             return;
         }
         // Set the name and description text of the card
-        name.text = location.Name;
+        name1.text = location.Name;
         description.text = location.Desc;
         if(gameData == null || gameData.player1 == null|| client == null){
             Debug.Log("null player1");
@@ -49,20 +49,5 @@ public class LocationDisplay : MonoBehaviour
             Debug.LogError(e);
         }
 
-
-
-        
-        // if (location. != null)
-        // {
-        //     Debug.Log(card.Image);
-        //     cardImage.sprite = Resources.Load<Sprite>($"cardImages/{card.Image}") as Sprite;
-            // cardImage.gameObject.SetActive(true);
-        // }
-        // else
-        // {
-        //     Debug.Log("img is null");
-        //     // If no image is available, hide the image component
-        //     cardImage.gameObject.SetActive(false);
-        // }
     }
 }

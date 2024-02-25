@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SharedLibrary;
 using UnityEngine.UI;
+using System;
 public class GameController : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -11,16 +12,20 @@ public class GameController : MonoBehaviour
     public Button EndTurn;
     private GameModel gameModel;
     private Client client;
-    private PlayerData playerData;
-    void Start()
+    public static PlayerData playerData;
+    public GameObject cardsManagerObj;
+    public GameObject locationsManagerObj;
+    void Awake()
     {
+
         gameModel = GameModel.getInstance();
         client = Client.getInstance();
         playerData = new PlayerData();
         setGameData();
-        
+
     }
-    private void setGameData(){
+    private void setGameData()
+    {
         if (gameModel.gameData.player1.PlayeId == client.playerId)
         {
             playerData = gameModel.gameData.player1;
@@ -30,7 +35,43 @@ public class GameController : MonoBehaviour
             playerData = gameModel.gameData.player2;
         }
         this.Name.text = $"{playerData.PlayeName}";
-        this.Energy.text = $"{playerData.Energy}";
+        Energy.text = $"{playerData.Energy}";
+
+    }
+    void Update()
+    {
+
+        Energy.text = $"{playerData.Energy}";
+
+    }
+    public void onEndButtonClick()
+    {
+        client.EndTurn(PlayedCardsModel.playedCards, gameModel);
+        gameModel.gameData = null;
+        EndTurn.interactable = false;
+        StartCoroutine(WaitForGameData());
+    }
+    IEnumerator WaitForGameData()
+    {
+        CardsManager cardsManager = cardsManagerObj.GetComponent<CardsManager>();
+        LocationManager locationManager = locationsManagerObj.GetComponent<LocationManager>();
+        // Wait until the game data is received from the server
+        while (gameModel.gameData == null)
+        {
+            yield return null;
+        }
+        // Once game data is received, proceed to the game scene
+        setGameData();
+        if (cardsManager != null)
+        {
+            cardsManager.CreateInstances();
+        }
+        if (locationManager != null)
+        {
+            locationManager.CreateInstances();
+        }
+        EndTurn.interactable = true;
+        PlayedCardsModel.playedCards = new List<PlayedCard>();
 
     }
 

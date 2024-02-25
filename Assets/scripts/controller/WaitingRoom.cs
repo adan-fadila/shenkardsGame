@@ -10,7 +10,6 @@ public class WaitingRoom : MonoBehaviour
     // Start is called before the first frame update
      void Start()
     {
-        Debug.Log("seceneStarted");
         client = Client.getInstance();
         gameModel = GameModel.getInstance();
         StartCoroutine(WaitForGameData());

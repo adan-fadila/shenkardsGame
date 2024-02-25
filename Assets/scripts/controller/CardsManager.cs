@@ -10,7 +10,6 @@ public class CardsManager : MonoBehaviour//, IPointerClickHandler//, IPointerEnt
     public GameObject Card;
     private GameModel gameModel;
     private Client client;
-    private PlayerData playerData;
     public GameObject selectedCard;
 
     private RectTransform cardRectTransform;
@@ -21,17 +20,8 @@ public class CardsManager : MonoBehaviour//, IPointerClickHandler//, IPointerEnt
     void Start()
     {
         client = Client.getInstance();
-        playerData = new PlayerData();
-        gameModel = GameModel.getInstance();
-        if (gameModel.gameData.player1.PlayeId == client.playerId)
-        {
-            playerData = gameModel.gameData.player1;
-        }
-        else
-        {
-            playerData = gameModel.gameData.player2;
-        }
-
+        
+       
         selectedCard = null;
 
         CreateInstances();
@@ -43,11 +33,11 @@ public class CardsManager : MonoBehaviour//, IPointerClickHandler//, IPointerEnt
 
 
 
-    void CreateInstances()
+    public void CreateInstances()
     {
 
         // Loop to create multiple instances
-        for (int i = 0; i < playerData.HandCards.Count; i++)
+        for (int i = 0; i <GameController.playerData.HandCards.Count; i++)
         {
             // Instantiate the prefab at a position and rotation
             GameObject instance = Instantiate(Card, Vector3.zero, Quaternion.identity);
@@ -65,7 +55,7 @@ public class CardsManager : MonoBehaviour//, IPointerClickHandler//, IPointerEnt
             CardDisplay cardDisplay = instance.GetComponentInChildren<CardDisplay>();
             if (cardDisplay != null)
             {
-                cardDisplay.SetCardData(playerData.HandCards[i]);
+                cardDisplay.SetCardData(GameController.playerData.HandCards[i]);
             }
             else
             {
