@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using System;
 public class GameController : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Text Name;
     public Text Energy;
     public Button EndTurn;
@@ -65,7 +64,6 @@ public class GameController : MonoBehaviour
         {
             yield return null;
         }
-        // Once game data is received, proceed to the game scene
         setGameData();
         if (cardsManager != null)
         {
