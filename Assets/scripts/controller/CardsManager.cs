@@ -11,6 +11,7 @@ public class CardsManager : MonoBehaviour//, IPointerClickHandler//, IPointerEnt
     private GameModel gameModel;
     private Client client;
     public GameObject selectedCard;
+    private List<GameObject> instantiatedCards = new List<GameObject>();
 
     private RectTransform cardRectTransform;
     private Vector3 originalScale;
@@ -35,7 +36,7 @@ public class CardsManager : MonoBehaviour//, IPointerClickHandler//, IPointerEnt
 
     public void CreateInstances()
     {
-
+        ClearInstances();
         // Loop to create multiple instances
         for (int i = 0; i <GameController.playerData.HandCards.Count; i++)
         {
@@ -68,7 +69,16 @@ public class CardsManager : MonoBehaviour//, IPointerClickHandler//, IPointerEnt
             // Optionally, you can give the instantiated GameObject a name
             instance.name = "Instance" + i;
             AddClickScript(instance);
+            instantiatedCards.Add(instance);
         }
+    }
+    private void ClearInstances()
+    {
+        foreach (var card in instantiatedCards)
+        {
+            Destroy(card);
+        }
+        instantiatedCards.Clear(); // Clear the list after destroying the instances
     }
     private void AddClickScript(GameObject obj)
     {

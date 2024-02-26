@@ -69,6 +69,7 @@ public class GameController : MonoBehaviour
         if (locationManager != null)
         {
             locationManager.CreateInstances();
+
         }
         EndTurn.interactable = true;
         PlayedCardsModel.playedCards = new List<PlayedCard>();

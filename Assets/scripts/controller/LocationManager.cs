@@ -10,6 +10,7 @@ public class LocationManager : MonoBehaviour
 
     private GameModel gameModel;
     private Client client;
+    private List<GameObject> instantiatedLocations = new List<GameObject>();
     // Start is called before the first frame update
     void Awake()
     {
@@ -22,6 +23,7 @@ public class LocationManager : MonoBehaviour
 
     public void CreateInstances()
     {
+        ClearInstances();
         // Loop to create multiple instances
         for (int i = 0; i < gameModel.gameData.locationDatas.Count; i++)
         {
@@ -59,10 +61,20 @@ public class LocationManager : MonoBehaviour
 
             // Optionally, you can give the instantiated GameObject a name
             instance.name = "Instance" + i;
+            instantiatedLocations.Add(instance);
+
 
         }
     }
-       private void AddClickScript(GameObject obj, Transform playerZone,LocationData locationData)
+    private void ClearInstances()
+    {
+        foreach (var instance in instantiatedLocations)
+        {
+            Destroy(instance);
+        }
+        instantiatedLocations.Clear(); // Clear the list after destroying the instances
+    }
+    private void AddClickScript(GameObject obj, Transform playerZone,LocationData locationData)
     {
         // Add the click script to the GameObject
         LocationClickHandler clickEffect = obj.AddComponent<LocationClickHandler>();
