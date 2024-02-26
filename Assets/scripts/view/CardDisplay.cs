@@ -28,7 +28,7 @@ class CardDisplay : MonoBehaviour
             Debug.Log(card.Image);
             imgName = card.Image;
             cardImage.sprite = Resources.Load<Sprite>($"cardImages/{imgName}") as Sprite;
-            // cardImage.gameObject.SetActive(true);
+            cardImage.gameObject.SetActive(true);
         }
         else
         {

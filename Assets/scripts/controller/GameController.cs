@@ -39,8 +39,8 @@ public class GameController : MonoBehaviour
     }
     void Update()
     {
-
-        Energy.text = $"{playerData.Energy}";
+        if (gameModel.gameData != null)
+            Energy.text = $"{playerData.Energy}";
 
     }
     public void onEndButtonClick()

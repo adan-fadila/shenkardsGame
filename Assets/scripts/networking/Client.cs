@@ -94,12 +94,13 @@ public class Client
         {
             try
             {
-                byte[] buffer = new byte[1024];
+                byte[] buffer = new byte[5024];
                 int bytesRead = stream.Read(buffer, 0, buffer.Length);
 
                 string serializedGameData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                Debug.Log(serializedGameData);
                 gameData = JsonConvert.DeserializeObject<GameData>(serializedGameData);
-                Debug.Log("GameData: " + gameData.player1.PlayeName);
+                Debug.Log(gameData.player2.PlayeName);
 
 
 

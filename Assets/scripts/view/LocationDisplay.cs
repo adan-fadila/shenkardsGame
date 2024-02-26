@@ -36,7 +36,7 @@ public class LocationDisplay : MonoBehaviour
             if (gameData.player1.PlayeId == client.playerId)
             {
                 PlayerScore.text = $"{location.Player1LocatinScore}";
-                oppScore.text = $"{location.Player1LocatinScore}";
+                oppScore.text = $"{location.Player2LocatinScore}";
             }
             else
             {
