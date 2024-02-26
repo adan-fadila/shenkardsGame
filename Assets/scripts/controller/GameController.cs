@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     public static PlayerData playerData;
     public GameObject cardsManagerObj;
     public GameObject locationsManagerObj;
+    private Coroutine endTurnTimerCoroutine;
     void Awake()
     {
 
@@ -37,6 +38,10 @@ public class GameController : MonoBehaviour
         this.Name.text = $"{playerData.PlayeName}";
         Energy.text = $"{playerData.Energy}";
 
+    }
+    private void Start()
+    {
+        StartEndTurnTimer();
     }
     void Update()
     {
@@ -73,7 +78,24 @@ public class GameController : MonoBehaviour
         }
         EndTurn.interactable = true;
         PlayedCardsModel.playedCards = new List<PlayedCard>();
+        StartEndTurnTimer() ;
 
     }
+    public void StartEndTurnTimer()
+    {
+        // Stop the previous timer if it's already running
+        if (endTurnTimerCoroutine != null)
+        {
+            StopCoroutine(endTurnTimerCoroutine);
+        }
+        endTurnTimerCoroutine = StartCoroutine(EndTurnTimerCoroutine());
+    }
+
+    IEnumerator EndTurnTimerCoroutine()
+    {
+        yield return new WaitForSeconds(10); // Wait for 10 seconds
+        onEndButtonClick(); // Automatically call the end turn function
+    }
+
 
 }
