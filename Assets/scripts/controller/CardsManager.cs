@@ -36,7 +36,7 @@ public class CardsManager : MonoBehaviour//, IPointerClickHandler//, IPointerEnt
 
     public void CreateInstances()
     {
-        ClearInstances();
+        //ClearInstances();
         // Loop to create multiple instances
         for (int i = 0; i <GameController.playerData.HandCards.Count; i++)
         {

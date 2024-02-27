@@ -23,7 +23,7 @@ public class LocationManager : MonoBehaviour
 
     public void CreateInstances()
     {
-        ClearInstances();
+       // ClearInstances();
         // Loop to create multiple instances
         for (int i = 0; i < gameModel.gameData.locationDatas.Count; i++)
         {
