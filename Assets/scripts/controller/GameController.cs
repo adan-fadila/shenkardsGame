@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using SharedLibrary;
 using UnityEngine.UI;
-using System;
+using UnityEngine.SceneManagement;
 public class GameController : MonoBehaviour
 {
     public Text Name;
@@ -55,22 +55,46 @@ public class GameController : MonoBehaviour
         CardsManager cardsManager = cardsManagerObj.GetComponent<CardsManager>();
         LocationManager locationManager = locationsManagerObj.GetComponent<LocationManager>();
         // Wait until the game data is received from the server
-        while (gameModel.gameData == null)
+        while (gameModel.gameData == null && !gameModel.gameEnd && gameModel.winners.Count == 0)
         {
             yield return null;
         }
-        setGameData();
-        if (cardsManager != null)
-        {
-            cardsManager.CreateInstances();
-        }
-        if (locationManager != null)
-        {
-            locationManager.CreateInstances();
-        }
-        EndTurn.interactable = true;
-        PlayedCardsModel.playedCards = new List<PlayedCard>();
 
+        if (gameModel.gameEnd)
+        {
+            Debug.Log("gameEnd");
+        }
+        else
+        {
+            if (gameModel.winners.Count > 0)
+            {
+                Debug.Log("gameWin");
+            }
+            else
+            {
+                setGameData();
+
+                if (cardsManager != null)
+                {
+                    cardsManager.CreateInstances();
+                }
+                if (locationManager != null)
+                {
+                    locationManager.CreateInstances();
+                }
+                EndTurn.interactable = true;
+                PlayedCardsModel.playedCards = new List<PlayedCard>();
+            }
+        }
+
+    }
+    public void onExitClick()
+    {
+        client.ExitGame();
+        gameModel.gameData = null;
+        gameModel.gameEnd = false;
+        gameModel.winners = new List<int>();
+        SceneManager.LoadScene("MainMenu");
     }
 
 }
