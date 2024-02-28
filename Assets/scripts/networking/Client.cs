@@ -78,7 +78,7 @@ public class Client
     private void ReceiveGameData(GameModel gameModel)
     {
         // Receive game data from the server
-        GameData gameData = GetGame();
+        GameData gameData = GetGame(gameModel);
 
         // Update the game model with the received game data
         gameModel.gameData = gameData;
@@ -87,10 +87,10 @@ public class Client
 
 
 
-    public GameData GetGame()
+    public GameData GetGame(GameModel gameModel)
     {
         GameData gameData = null;
-        while (gameData == null)
+        while (gameData == null && gameModel.winners.Count == 0 && !gameModel.gameEnd)
         {
             try
             {
@@ -98,6 +98,17 @@ public class Client
                 int bytesRead = stream.Read(buffer, 0, buffer.Length);
 
                 string serializedGameData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                string[] parts = serializedGameData.Split('|');
+                if(parts[0] == "PlayerExit"){
+                    Debug.Log("playerExit");
+                    gameModel.gameEnd = true;
+                    return null;
+                }
+                if(parts[0] == "gameEnd"){
+                    Debug.Log("gameEnd");
+                    gameModel.winners = JsonConvert.DeserializeObject<List<int>>(parts[1]);
+                    return null;
+                }
                 Debug.Log(serializedGameData);
                 gameData = JsonConvert.DeserializeObject<GameData>(serializedGameData);
                 Debug.Log(gameData.player2.PlayeName);
@@ -133,6 +144,11 @@ public class Client
         string EndTurn = $"EndTurn|{cards}";
         SendMessage(EndTurn);
         Task.Run(() => ReceiveGameData(gameModel));
+    }
+
+
+    public void ExitGame(){
+        SendMessage("ExitGame");
     }
 
     private void SendMessage(string message)
