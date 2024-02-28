@@ -121,15 +121,8 @@ public class GameController : MonoBehaviour
     }
     IEnumerator ExitGameAfterDelay()
     {
-        // Wait for 5 seconds
         yield return new WaitForSeconds(5f);
-
-        // Check if the game has not already transitioned away
-        // This can be based on a condition, for example, if the gameData is still null or any other relevant check
-       
-        
-            onExitClick();
-        
+        onExitClick();
     }
 
 }
