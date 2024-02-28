@@ -112,10 +112,24 @@ public class GameController : MonoBehaviour
     void EnableEndGameScreen()
     {
         endGameScreen.SetActive(true);
+        StartCoroutine(ExitGameAfterDelay());
     }
 
     void DisableEndGameScreen()
     {
         endGameScreen.SetActive(false);
     }
+    IEnumerator ExitGameAfterDelay()
+    {
+        // Wait for 5 seconds
+        yield return new WaitForSeconds(5f);
+
+        // Check if the game has not already transitioned away
+        // This can be based on a condition, for example, if the gameData is still null or any other relevant check
+       
+        
+            onExitClick();
+        
+    }
+
 }
