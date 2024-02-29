@@ -14,11 +14,13 @@ public class LocationDisplay : MonoBehaviour
     public Image LocationImage;
     public Text PlayerScore;
     public Text oppScore;
-
+    public List<CardData> player;
+    public List<CardData> opp;
   
     // Start is called before the first frame update
     public void SetLocationData(LocationData location, GameData gameData,Client client)
     {
+        
         if (gameData == null)
         {
             Debug.Log("location null");
@@ -37,11 +39,15 @@ public class LocationDisplay : MonoBehaviour
             {
                 PlayerScore.text = $"{location.Player1LocatinScore}";
                 oppScore.text = $"{location.Player2LocatinScore}";
+                player = location.Player1Zone;
+                opp = location.Player2Zone;
             }
             else
             {
                 PlayerScore.text = $"{location.Player2LocatinScore}";
                 oppScore.text = $"{location.Player1LocatinScore}";
+                player = location.Player2Zone;
+                opp = location.Player1Zone;
             }
         }
         catch (Exception e)

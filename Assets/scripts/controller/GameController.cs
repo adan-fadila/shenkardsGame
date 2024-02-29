@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     public Text Name;
     public Text Energy;
     public Button EndTurn;
+    public Text OppName;
     private GameModel gameModel;
     private Client client;
     public static PlayerData playerData;
@@ -28,10 +29,12 @@ public class GameController : MonoBehaviour
         if (gameModel.gameData.player1.PlayeId == client.playerId)
         {
             playerData = gameModel.gameData.player1;
+            this.OppName.text = gameModel.gameData.player2.PlayeName;
         }
         else
         {
             playerData = gameModel.gameData.player2;
+            this.OppName.text = gameModel.gameData.player1.PlayeName;
         }
         this.Name.text = $"{playerData.PlayeName}";
         Energy.text = $"{playerData.Energy}";
@@ -76,10 +79,12 @@ public class GameController : MonoBehaviour
 
                 if (cardsManager != null)
                 {
+                    destroyCards();
                     cardsManager.CreateInstances();
                 }
                 if (locationManager != null)
                 {
+                    destroyLocations();
                     locationManager.CreateInstances();
                 }
                 EndTurn.interactable = true;
@@ -96,5 +101,16 @@ public class GameController : MonoBehaviour
         gameModel.winners = new List<int>();
         SceneManager.LoadScene("MainMenu");
     }
-
+    void destroyLocations(){
+       foreach (Transform item in locationsManagerObj.transform)
+       {
+         Destroy(item.gameObject);
+       }
+    }
+    void destroyCards(){
+         foreach (Transform item in cardsManagerObj.transform)
+       {
+         Destroy(item.gameObject);
+       }
+    }
 }

@@ -70,7 +70,7 @@ public class LocationClickHandler : MonoBehaviour, IPointerClickHandler
                 
                 
 
-                RearrangePlayerZoneWithPadding();
+                RearrangePlayerZoneWithPadding(playerZone);
             }
         }
         catch (Exception e)
@@ -79,7 +79,7 @@ public class LocationClickHandler : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    void RearrangePlayerZoneWithPadding()
+    public static void RearrangePlayerZoneWithPadding(Transform playerZone)
     {
         if (playerZone == null)
         {
