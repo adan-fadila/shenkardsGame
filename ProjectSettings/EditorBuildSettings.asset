@@ -26,4 +26,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/AdminLogin.unity
     guid: 1422fadc311d68345a14bfd500111b1e
+  - enabled: 0
+    path: Assets/Scenes/AdminMainMenu.unity
+    guid: 850aa4ed96b5ac445ac6e1aa2526c7fb
+  - enabled: 1
+    path: Assets/Scenes/AdminMenu.unity
+    guid: 555f0be5ce07d2f49bd5c0663514f788
+  - enabled: 1
+    path: Assets/Scenes/EditCards.unity
+    guid: 00915abdf66fbe047be20d3d68f664b3
   m_configObjects: {}

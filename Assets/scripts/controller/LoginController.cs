@@ -102,7 +102,7 @@ public class LoginController : MonoBehaviour
             // Call the SendLoginInfo method of the client component
             if (client.AdminLogin(username, password))
             {
-                SceneManager.LoadScene("AdminMainMenu");
+                SceneManager.LoadScene("AdminMenu");
                 return;
                 
             }

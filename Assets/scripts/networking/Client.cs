@@ -55,9 +55,41 @@ public class Client
         }
         return true;
     }
+    public List<CardData> AdminGetCards()
+    {
+        // Example: Sending login request to the server
+        string cardsRequest = $"GetCards";
+        SendMessage(cardsRequest);
+        return ReceiveCardsData();
 
+    }
+    public List<CardData> ReceiveCardsData()
+    {
+        byte[] buffer = new byte[6000];
+        int bytesRead = stream.Read(buffer, 0, buffer.Length);
+        string receivedMessage = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+        return JsonConvert.DeserializeObject<List<CardData>>(receivedMessage);
 
+    }
 
+/****************************************************/
+/**********************NEED TEST*********************/
+     public CardData AdminUpdateCard(int id,int cost,int power)
+    {
+        // Example: Sending login request to the server
+        string UpdateRequest = $"UpdateCard|{id}|{cost}|{power}";
+        SendMessage(UpdateRequest);
+        return ReceiveCardData();
+
+    }
+      public CardData ReceiveCardData()
+    {
+        byte[] buffer = new byte[1024];
+        int bytesRead = stream.Read(buffer, 0, buffer.Length);
+        string receivedMessage = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+        return JsonConvert.DeserializeObject<CardData>(receivedMessage);
+
+    }
 
 
 
@@ -99,12 +131,14 @@ public class Client
 
                 string serializedGameData = Encoding.ASCII.GetString(buffer, 0, bytesRead);
                 string[] parts = serializedGameData.Split('|');
-                if(parts[0] == "PlayerExit"){
+                if (parts[0] == "PlayerExit")
+                {
                     Debug.Log("playerExit");
                     gameModel.gameEnd = true;
                     return null;
                 }
-                if(parts[0] == "gameEnd"){
+                if (parts[0] == "gameEnd")
+                {
                     Debug.Log("gameEnd");
                     gameModel.winners = JsonConvert.DeserializeObject<List<int>>(parts[1]);
                     return null;
@@ -135,9 +169,8 @@ public class Client
 
 
 
-    
-    /*******************************************/
-    /*need to use when end turn clicked ---need testing*/
+
+
     public void EndTurn(List<PlayedCard> playedCards, GameModel gameModel)
     {
         string cards = JsonConvert.SerializeObject(playedCards);
@@ -147,7 +180,8 @@ public class Client
     }
 
 
-    public void ExitGame(){
+    public void ExitGame()
+    {
         SendMessage("ExitGame");
     }
 
@@ -177,11 +211,11 @@ public class Client
 
     }
 
-    // public void Close()
-    // {
-    //     stream.Close();
-    //     client.Close();
-    // }
+    public void Close()
+    {
+        stream.Close();
+        client.Close();
+    }
 
 }
 
