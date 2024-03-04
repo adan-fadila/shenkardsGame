@@ -95,7 +95,7 @@ public class LocationManager : MonoBehaviour
             instance.transform.SetParent(zone, false);
             RectTransform CardRectTransform = instance.GetComponent<RectTransform>();
             CardDisplay cardDisplay = instance.GetComponentInChildren<CardDisplay>();
-            CardRectTransform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+            CardRectTransform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
             if (cardDisplay != null)
             {
                 cardDisplay.SetCardData(cards[i]);
