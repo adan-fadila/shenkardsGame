@@ -56,7 +56,7 @@ public class LocationClickHandler : MonoBehaviour, IPointerClickHandler
 
                 selectedCardRectTransform.SetParent(playerZoneRectTransform, false);
 
-                selectedCardRectTransform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
+                selectedCardRectTransform.localScale = new Vector3(0.4f, 0.4f, 0.4f);
 
                 
                 SingleInstanceClickEffect scriptToRemove = SingleInstanceClickEffect.selectedCard.GetComponent<SingleInstanceClickEffect>();

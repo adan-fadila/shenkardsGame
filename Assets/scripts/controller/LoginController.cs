@@ -40,14 +40,13 @@ public class LoginController : MonoBehaviour
                 SceneManager.LoadScene("MainMenu");
                 return;
             }
-            textComponent.text = "password or username not valid";
-            ShowText();
+            ShowText("username or password are invalid");
 
         }
         else
         {
-            textComponent.text = "Username and password cannot be empty!";
-            ShowText();
+            
+            ShowText("Username and password cannot be empty!");
         }
 
     }
@@ -63,9 +62,10 @@ public class LoginController : MonoBehaviour
 
 
 
-    public void ShowText()
+    public void ShowText(string text)
     {
         // Enable the GameObject containing the Text component
+        textComponent.text = text;
         textComponent.gameObject.SetActive(true);
     }
 
@@ -86,13 +86,13 @@ public class LoginController : MonoBehaviour
 
 
 
-    public void onAdminButtonClick(){
-        SceneManager.LoadScene("AdminLogin");
+    public void onSignUpButtonClick(){
+        SceneManager.LoadScene("SignUp");
     }
       public void onBackButtonClick(){
         SceneManager.LoadScene("Login");
     }
-      public void OnAdminLoginButtonClick()
+      public void onSignUpClick()
     {
         string username = usernameInput.text;
         string password = passwordInput.text;
@@ -100,20 +100,16 @@ public class LoginController : MonoBehaviour
         if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
         {
             // Call the SendLoginInfo method of the client component
-            if (client.AdminLogin(username, password))
+            if (client.SignUp(username,password))
             {
-                SceneManager.LoadScene("AdminMainMenu");
+                SceneManager.LoadScene("Login");
                 return;
                 
             }
-            ShowText();
+            ShowText("this name is already exist try another");
 
         }
-        else
-        {
-            Debug.LogError("Username and password cannot be empty!");
-            ShowText();
-        }
+        
 
     }
 }

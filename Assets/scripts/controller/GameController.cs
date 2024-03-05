@@ -65,6 +65,8 @@ public class GameController : MonoBehaviour
 
         if (gameModel.gameEnd)
         {
+            onExitClick();
+            client.ExitGame();
             Debug.Log("gameEnd");
         }
         else

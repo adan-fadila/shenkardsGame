@@ -55,6 +55,11 @@ public class Client
         }
         return true;
     }
+    public bool SignUp(string username, string password){
+        string signUprequest = $"SignUp|{username}|{password}";
+        SendMessage(signUprequest);
+        return ReceiveSignUpMsg();
+    }
 
 
 
@@ -136,8 +141,7 @@ public class Client
 
 
     
-    /*******************************************/
-    /*need to use when end turn clicked ---need testing*/
+
     public void EndTurn(List<PlayedCard> playedCards, GameModel gameModel)
     {
         string cards = JsonConvert.SerializeObject(playedCards);
@@ -157,11 +161,16 @@ public class Client
         stream.Write(data, 0, data.Length);
     }
 
-    public void ReceiveMessage()
+    public bool ReceiveSignUpMsg()
     {
         byte[] buffer = new byte[1024];
         int bytesRead = stream.Read(buffer, 0, buffer.Length);
         string receivedMessage = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+        if(receivedMessage == "success"){
+            return true;
+        }
+        return false;
+
     }
     public void ReceivePlayerId()
     {
@@ -177,11 +186,11 @@ public class Client
 
     }
 
-    // public void Close()
-    // {
-    //     stream.Close();
-    //     client.Close();
-    // }
+    public void Close()
+    {
+        stream.Close();
+        client.Close();
+    }
 
 }
 

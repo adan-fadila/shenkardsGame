@@ -603,7 +603,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1084350475}
         m_TargetAssemblyTypeName: LoginController, Assembly-CSharp
-        m_MethodName: onAdminButtonClick
+        m_MethodName: onSignUpButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1286,7 +1286,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: admin
+  m_Text: Sign Up
 --- !u!222 &1158275974
 CanvasRenderer:
   m_ObjectHideFlags: 0

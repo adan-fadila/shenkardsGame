@@ -54,6 +54,10 @@ public class LocationManager : MonoBehaviour
                 locationDisplay.SetLocationData(gameModel.gameData.locationDatas[i], gameModel.gameData, client);
                 CreateCardInstances(locationDisplay.player, playerZone);
                 CreateCardInstances(locationDisplay.opp, oppZone);
+                foreach (Transform child in oppZone)
+                {
+                    child.rotation =Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 180f);
+                }
             }
             else
             {
@@ -86,12 +90,7 @@ public class LocationManager : MonoBehaviour
 
             // Calculate the position based on the width of the prefab instance and its scale
             float cardWidth = rectTransform.rect.width * instance.transform.localScale.x;
-            // Vector3 position = new Vector3((float)(i * 1.3 * cardWidth), 0, 0);
-
-            // Set the position of the instantiated prefab
-            // instance.transform.localPosition = position;
-
-            // Set the parent using the SetParent method
+     
             instance.transform.SetParent(zone, false);
             RectTransform CardRectTransform = instance.GetComponent<RectTransform>();
             CardDisplay cardDisplay = instance.GetComponentInChildren<CardDisplay>();

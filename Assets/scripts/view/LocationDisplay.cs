@@ -29,6 +29,7 @@ public class LocationDisplay : MonoBehaviour
         // Set the name and description text of the card
         name1.text = location.Name;
         description.text = location.Desc;
+        LocationImage.sprite = Resources.Load<Sprite>($"locationImages/{location.Image}") as Sprite;
         if(gameData == null || gameData.player1 == null|| client == null){
             Debug.Log("null player1");
         }
