@@ -18,7 +18,10 @@ public class GameController : MonoBehaviour
 
     public Text timerText;
     private float turnTimer = 10f; 
-    private bool timerIsActive = false; 
+    private bool timerIsActive = false;
+
+    public GameObject endGameScreen;
+    public Text EndGameText;
     void Awake()
     {
 
@@ -84,12 +87,25 @@ public class GameController : MonoBehaviour
         if (gameModel.gameEnd)
         {
             Debug.Log("gameEnd");
+            StopTurnTimer();
         }
         else
         {
             if (gameModel.winners.Count > 0)
             {
-                Debug.Log("gameWin");
+                if (gameModel.winners.Contains(client.playerId))
+                {
+                    EnableEndGameScreen();
+                    Debug.Log("You have won the game!");
+                    EndGameText.text = "You have won the game!";
+                }
+                else
+                {
+                    EnableEndGameScreen();
+                    Debug.Log("You have lost the game!");
+                    EndGameText.text = "You have lost the game!";
+
+                }
             }
             else
             {
@@ -142,4 +158,21 @@ public class GameController : MonoBehaviour
     {
         timerIsActive = false; 
     }
+
+    void EnableEndGameScreen()
+    {
+        endGameScreen.SetActive(true);
+        StartCoroutine(ExitGameAfterDelay());
+    }
+
+    void DisableEndGameScreen()
+    {
+        endGameScreen.SetActive(false);
+    }
+    IEnumerator ExitGameAfterDelay()
+    {
+        yield return new WaitForSeconds(5f);
+        onExitClick();
+    }
+
 }
