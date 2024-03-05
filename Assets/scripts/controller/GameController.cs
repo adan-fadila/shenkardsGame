@@ -15,6 +15,10 @@ public class GameController : MonoBehaviour
     public static PlayerData playerData;
     public GameObject cardsManagerObj;
     public GameObject locationsManagerObj;
+
+    public Text timerText;
+    private float turnTimer = 10f; 
+    private bool timerIsActive = false; 
     void Awake()
     {
 
@@ -22,6 +26,7 @@ public class GameController : MonoBehaviour
         client = Client.getInstance();
         playerData = new PlayerData();
         setGameData();
+        StartTurnTimer();
 
     }
     private void setGameData()
@@ -45,6 +50,18 @@ public class GameController : MonoBehaviour
         if (gameModel.gameData != null)
             Energy.text = $"{playerData.Energy}";
 
+        if (timerIsActive)
+        {
+            turnTimer -= Time.deltaTime;
+            timerText.text = Mathf.CeilToInt(turnTimer).ToString();
+
+            if (turnTimer <= 0)
+            {
+                onEndButtonClick(); 
+                StartTurnTimer(); 
+            }
+        }
+
     }
     public void onEndButtonClick()
     {
@@ -52,6 +69,7 @@ public class GameController : MonoBehaviour
         gameModel.gameData = null;
         EndTurn.interactable = false;
         StartCoroutine(WaitForGameData());
+        StartTurnTimer();
     }
     IEnumerator WaitForGameData()
     {
@@ -112,5 +130,16 @@ public class GameController : MonoBehaviour
        {
          Destroy(item.gameObject);
        }
+    }
+
+    private void StartTurnTimer()
+    {
+        turnTimer = 10f;
+        timerIsActive = true;
+    }
+
+    private void StopTurnTimer()
+    {
+        timerIsActive = false; 
     }
 }
