@@ -190,6 +190,7 @@ public class Client
     {
         stream.Close();
         client.Close();
+        instance = null;
     }
 
 }

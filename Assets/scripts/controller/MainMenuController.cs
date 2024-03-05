@@ -23,4 +23,8 @@ public class MainMenuController : MonoBehaviour
         // Request a game from the server
         client.RequestGame(gameModel);
     }
+        public void OnLogOutClick(){
+        client.Close();
+        SceneManager.LoadScene("Login");
+    }
 }
