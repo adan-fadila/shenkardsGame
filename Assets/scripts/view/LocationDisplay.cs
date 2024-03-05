@@ -30,6 +30,7 @@ public class LocationDisplay : MonoBehaviour
         name1.text = location.Name;
         description.text = location.Desc;
         LocationImage.sprite = Resources.Load<Sprite>($"locationImages/{location.Image}") as Sprite;
+        Debug.Log(location.Image);
         if(gameData == null || gameData.player1 == null|| client == null){
             Debug.Log("null player1");
         }
