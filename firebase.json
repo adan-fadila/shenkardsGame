@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "server.csproj",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

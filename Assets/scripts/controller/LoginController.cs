@@ -1,5 +1,7 @@
 
 
+using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -35,19 +37,32 @@ public class LoginController : MonoBehaviour
         if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
         {
             // Call the SendLoginInfo method of the client component
-            if (client.Login(username, password))
-            {
-                SceneManager.LoadScene("MainMenu");
-                return;
-            }
-            ShowText("username or password are invalid");
-
+            client.Login(username, password);
+            StartCoroutine(LoginCoroutine());
         }
         else
         {
-            
+
             ShowText("Username and password cannot be empty!");
         }
+    }
+
+    IEnumerator LoginCoroutine()
+    {
+        // Wait until the game data is received from the server
+        while (client.playerId == -1 || client.playerId == -2)
+        {
+            if (client.playerId == -1)
+                ShowText("username or password are invalid");
+            yield return null;
+        }
+        // Once game data is received, proceed to the game scene
+
+        SceneManager.LoadScene("MainMenu");
+
+
+
+
 
     }
 
@@ -85,14 +100,15 @@ public class LoginController : MonoBehaviour
 
 
 
-
-    public void onSignUpButtonClick(){
+    public void onSignUpButtonClick()
+    {
         SceneManager.LoadScene("SignUp");
     }
-      public void onBackButtonClick(){
+    public void onBackButtonClick()
+    {
         SceneManager.LoadScene("Login");
     }
-      public void onSignUpClick()
+    public void onSignUpClick()
     {
         string username = usernameInput.text;
         string password = passwordInput.text;
@@ -100,16 +116,30 @@ public class LoginController : MonoBehaviour
         if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(password))
         {
             // Call the SendLoginInfo method of the client component
-            if (client.SignUp(username,password))
-            {
-                SceneManager.LoadScene("Login");
-                return;
-                
-            }
-            ShowText("this name is already exist try another");
+            client.SignUp(username, password);
+            StartCoroutine(SignUpCoroutine());
 
         }
-        
+
 
     }
+    IEnumerator SignUpCoroutine()
+    {
+        // Wait until the game data is received from the server
+        while (!client.signup)
+        {
+        
+             ShowText("username or password are invalid");
+            yield return null;
+        }
+        // Once game data is received, proceed to the game scene
+
+        SceneManager.LoadScene("Login");
+
+
+
+
+
+    }
+
 }

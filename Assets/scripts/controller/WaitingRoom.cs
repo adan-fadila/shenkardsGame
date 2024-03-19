@@ -8,7 +8,7 @@ public class WaitingRoom : MonoBehaviour
     private GameModel gameModel;
     private Client client;
     // Start is called before the first frame update
-     void Start()
+    void Start()
     {
         client = Client.getInstance();
         gameModel = GameModel.getInstance();
@@ -18,11 +18,18 @@ public class WaitingRoom : MonoBehaviour
     IEnumerator WaitForGameData()
     {
         // Wait until the game data is received from the server
-        while (gameModel.gameData == null)
-        {   
+        while (gameModel.gameData == null && client.connect)
+        { 
             yield return null;
-        } 
-        // Once game data is received, proceed to the game scene
-        SceneManager.LoadScene("Game");
+        }
+        Debug.Log("not while");
+        if (!client.connect)
+        {
+            client.Close();
+            SceneManager.LoadScene("Login");
+        }
+        else { SceneManager.LoadScene("Game"); }
+       
+
     }
 }
