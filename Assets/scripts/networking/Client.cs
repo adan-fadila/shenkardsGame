@@ -16,7 +16,7 @@ public class Client
     public bool connect = false;
     private NetworkStream stream;
     public bool signup = false;
-    private const string serverAddress = "127.0.0.1";//"54.196.107.218"; // Server IP address
+    private const string serverAddress = "54.196.107.218"; // Server IP address
     private const int port = 8888;
 
     private Client()
